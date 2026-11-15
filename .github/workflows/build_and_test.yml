@@ -381,6 +381,8 @@ jobs:
 
       - name: Setup veth pair
         run: |
+          ip -br addr
+          ip route show default
           sudo ip link add veth0 type veth peer name veth1
           sudo ip link set veth0 up
           sudo ip link set veth1 up
@@ -408,6 +410,8 @@ jobs:
       - name: Test PcapPlusPlus
         run: |
           . .venv/bin/activate
+          ip -br addr
+          ip route show default
           python3 ci/run_tests/run_tests.py --interface eth0 --tcpreplay-interface veth1 --use-sudo --test-suites pcap --pcap-test-args "-t dpdk -d 0 -a --no-pci -a --vdev=net_af_packet0,iface=veth0" --build-dir "$BUILD_DIR"
 
       - name: Create Cobertura Report
@@ -1132,6 +1136,8 @@ jobs:
 
       - name: Setup veth pair
         run: |
+          ip -br addr
+          ip route show default
           sudo ip link add veth0 type veth peer name veth1
           sudo ip link set veth0 up
           sudo ip link set veth1 up
